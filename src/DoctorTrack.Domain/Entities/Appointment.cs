@@ -8,15 +8,21 @@ namespace DoctorTrack.Domain.Entities
 {
     public class Appointment
     {
-        public int DoctorId { get; set; }
-        public DateTimeOffset StartTime { get; set; }
-        public DateTimeOffset EndTime { get; set; }
-        public DateTimeOffset Date { get; set; }
+        public int doctorId { get; set; }
+        public DateTime startTime { get; set; }
+        public DateTime endTime { get; set; }
+        public DateTime date { get; set; }
+
+        /*
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string Date { get; set; } 
+        */
         public int VisitId { get; set; }
         public string PatientName { get; set; }
         public string PatientSurname { get; set; }
-        public int HospitalId { get; set; }
-        public int BranchId { get; set; }
+        public int hospitalId { get; set; }
+        public double branchId { get; set; }
        
     }
 

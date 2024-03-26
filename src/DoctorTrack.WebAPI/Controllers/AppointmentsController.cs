@@ -51,7 +51,6 @@ namespace DoctorTrack.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error booking the appointment");
             }
         }
@@ -69,11 +68,33 @@ namespace DoctorTrack.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-
-             
              return StatusCode(StatusCodes.Status500InternalServerError, "Error booking the appointment");
         }
         }
+
+        [HttpPost("cancel2/{bookingId}")]
+        public async Task<ActionResult> CancelAppointment2(int bookingId)
+        {
+            try
+            {
+                var result = await _appointmentService.CancelAppointmentAsync(bookingId);
+                if (result)
+                    return Ok(new { status = true, message = $"Booking with ID {bookingId} was successfully cancelled." });
+                else
+                    // hata mesajı 
+                    return NotFound(new { status = false, message = $"Booking with ID {bookingId}" +
+                        $" not found. It may have been cancelled already or does not exist." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { status = false,
+                    message = "An error occurred while cancelling the appointment.", error = ex.Message });
+            }
+        }
+
+       
+
+
     }
 }
 

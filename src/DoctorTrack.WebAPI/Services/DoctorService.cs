@@ -23,9 +23,9 @@ namespace DoctorTrack.WebAPI.Services
                 var schedulesList = JsonConvert.DeserializeObject<ScheduleListResponse>(content)?.Data;
                 return schedulesList.Select(s => new Appointment
                 {
-                    DoctorId = s.DoctorId,
-                    StartTime = DateTime.Parse(s.StartTime),
-                    EndTime = DateTime.Parse(s.EndTime),
+                    doctorId = s.DoctorId,
+                    startTime = DateTime.Parse(s.StartTime),
+                    endTime = DateTime.Parse(s.EndTime),
                     VisitId = s.VisitId
                    
                 });

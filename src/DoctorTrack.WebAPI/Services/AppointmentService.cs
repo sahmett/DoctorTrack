@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DoctorTrack.Domain.Entities;
 using DoctorTrack.Domain.Interfaces;
+using Microsoft.Extensions.Hosting;
 
 namespace DoctorTrack.WebAPI.Services
 {
@@ -17,48 +18,60 @@ namespace DoctorTrack.WebAPI.Services
         {
             _httpClient = httpClient;
         }
-
         public async Task<int> BookAppointmentAsync(Appointment appointment)
         {
-            var requestUri = new Uri($"{BaseUrl}bookVisit");
-            var payload = new
-            {
-                VisitId = appointment.VisitId,
-                StartTime = appointment.StartTime.ToString("HH:mm"),
-                EndTime = appointment.EndTime.ToString("HH:mm"),
-                Date = appointment.StartTime.ToString("dd/MM/yyyy"),
-                PatientName = appointment.PatientName,
-                PatientSurname = appointment.PatientSurname,
-                HospitalId = appointment.HospitalId,
-                DoctorId = appointment.DoctorId,
-                BranchId = (int)Math.Round((double)appointment.BranchId)
-            };
+          
+            var query = $"?VisitId={appointment.VisitId}&startTime={appointment.startTime.ToString("HH:mm")}" +
+                        $"&endTime={appointment.endTime.ToString("HH:mm")}&date={appointment.date.ToString("dd/MM/yyyy")}" +
+                        $"&PatientName={appointment.PatientName}&PatientSurname={appointment.PatientSurname}" +
+                        $"&hospitalId={appointment.hospitalId}&doctorId={appointment.doctorId}&branchId={appointment.branchId}";
 
-            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(requestUri, content);
+          
+            var requestUri = $"{BaseUrl}bookVisit{query}";
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException($"Failed to book appointment: {errorContent}");
-            }
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            
+            var response = await _httpClient.SendAsync(request);
 
+           
+            //response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            var bookingResponse = JsonConvert.DeserializeObject<dynamic>(responseContent);
+            var bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(responseContent);
 
-            if (bookingResponse.status == true && bookingResponse.BookingID != null)
+            
+            if (bookingResponse.Status && bookingResponse.BookingID.HasValue)
             {
-                return bookingResponse.BookingID;
+                return bookingResponse.BookingID.Value;
             }
 
             throw new Exception("Invalid response received from the booking service.");
         }
 
-        public Task<bool> CancelAppointmentAsync(int bookingId)
+        public async Task<bool> CancelAppointmentAsync(int bookingId)
         {
-            throw new NotImplementedException();
+           // Ziyareti iptal etmek için POST https://a93ced42-c421-4f38-a0ee-25fc667483c0.mock.pstmn.io/bookVisit?BookingID=133213
+
+            var query = $"?BookingID={bookingId}";
+
+            var requestUri = $"{BaseUrl}cancelVisit{query}";
+   
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+            return true;
+        }
+     
+
+        private class BookingResponse
+        {
+            public bool Status { get; set; }
+            public int? BookingID { get; set; }
         }
 
-        // Implement CancelAppointmentAsync ve diğer metodlar...
     }
 }
