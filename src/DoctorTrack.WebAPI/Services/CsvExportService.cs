@@ -26,7 +26,7 @@ namespace DoctorTrack.WebAPI.Services
         {
             
             var doctorDataJson = await _httpClient.GetStringAsync($"{_baseAddress}{FetchDoctorsEndpoint}");
-            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapper>(doctorDataJson);
+            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapperDto>(doctorDataJson);
 
             var csvContent = new StringBuilder();
             csvContent.AppendLine("CreatedAt,Name,Gender,HospitalName,HospitalId,SpecialtyId,BranchId,Nationality,DoctorId");
@@ -47,9 +47,9 @@ namespace DoctorTrack.WebAPI.Services
         public async Task ExportDoctorsToCsvAsync()
         {
             var doctorDataJson = await _httpClient.GetStringAsync($"{_baseAddress}{FetchDoctorsEndpoint}");
-            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapper>(doctorDataJson);
+            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapperDto>(doctorDataJson);
 
-            // Get the list separator for the current culture
+            
             string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
 
             var csvContent = new StringBuilder();
@@ -62,7 +62,7 @@ namespace DoctorTrack.WebAPI.Services
                     doctor.gender = doctor.gender == "Erkek" ? "Male" : (doctor.gender == "Kadın" ? "Female" : doctor.gender);
                 }
 
-                // Use the current culture's list separator and handle quotes
+               
                 var line = string.Format(CultureInfo.CurrentCulture,
                     "\"{0}\"{9}\"{1}\"{9}\"{2}\"{9}\"{3}\"{9}{4}{9}{5}{9}{6}{9}\"{7}\"{9}\"{8}\"",
                     doctor.createdAt,
@@ -79,11 +79,11 @@ namespace DoctorTrack.WebAPI.Services
                 csvContent.AppendLine(line);
             }
 
-            // Write the CSV content to a file with UTF-8 encoding
+           
             await File.WriteAllTextAsync(CsvFilePath, csvContent.ToString(), Encoding.UTF8);
         }
 
-        // Helper method to escape quotes within CSV fields
+       
         static string EscapeQuotes(string input)
         {
             return input.Replace("\"", "\"\"");

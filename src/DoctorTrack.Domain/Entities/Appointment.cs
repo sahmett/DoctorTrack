@@ -12,12 +12,6 @@ namespace DoctorTrack.Domain.Entities
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public DateTime date { get; set; }
-
-        /*
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
-        public string Date { get; set; } 
-        */
         public int VisitId { get; set; }
         public string PatientName { get; set; }
         public string PatientSurname { get; set; }

@@ -1,4 +1,5 @@
-﻿using DoctorTrack.Domain.Entities;
+﻿using DoctorTrack.Domain.DTOs;
+using DoctorTrack.Domain.Entities;
 using DoctorTrack.Domain.Interfaces;
 using DoctorTrack.WebAPI.Services;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace DoctorTrack.WebAPI.Controllers
                 }
                 return Ok(appointments);
             }
-            catch (NoSlotsFoundException ex)
+            catch (NoSlotsFoundExceptionDto ex)
             {
                
                 return NotFound(ex.Message);
