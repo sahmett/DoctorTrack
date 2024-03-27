@@ -26,7 +26,7 @@ namespace DoctorTrack.WebAPI.Services
         {
             
             var doctorDataJson = await _httpClient.GetStringAsync($"{_baseAddress}{FetchDoctorsEndpoint}");
-            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapper>(doctorDataJson);
+            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapperDto>(doctorDataJson);
 
             var csvContent = new StringBuilder();
             csvContent.AppendLine("CreatedAt,Name,Gender,HospitalName,HospitalId,SpecialtyId,BranchId,Nationality,DoctorId");
@@ -47,7 +47,7 @@ namespace DoctorTrack.WebAPI.Services
         public async Task ExportDoctorsToCsvAsync()
         {
             var doctorDataJson = await _httpClient.GetStringAsync($"{_baseAddress}{FetchDoctorsEndpoint}");
-            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapper>(doctorDataJson);
+            var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapperDto>(doctorDataJson);
 
             
             string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;

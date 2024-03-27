@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DoctorTrack.Domain.DTOs
 {
-    public class NoSlotsFoundException : Exception
+    public class NoSlotsFoundExceptionDto : Exception
     {
-        public NoSlotsFoundException(string message) : base(message) { }
+        public NoSlotsFoundExceptionDto(string message) : base(message) { }
     }
 }

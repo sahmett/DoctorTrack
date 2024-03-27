@@ -25,7 +25,7 @@ namespace DoctorTrack.WebAPI.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var schedulesList = JsonConvert.DeserializeObject<ScheduleListResponse>(content)?.Data;
+                var schedulesList = JsonConvert.DeserializeObject<DoctorScheduleListResponseDto>(content)?.Data;
                 return schedulesList.Select(s => new Appointment
                 {
                     doctorId = s.DoctorId,
@@ -40,12 +40,12 @@ namespace DoctorTrack.WebAPI.Services
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(content);
+                var errorResponse = JsonConvert.DeserializeObject<ErrorDto>(content);
                 // NO_SLOT_FOUND durumu
                 if (errorResponse?.Message == "NO_SLOT_FOUND")
                 {
                     //özel bir hata fırlat
-                    throw new NoSlotsFoundException("Müsait randevu zamanı bulunamadı.");
+                    throw new NoSlotsFoundExceptionDto("Müsait randevu zamanı bulunamadı.");
                 }
 
                 return new List<Appointment>();
@@ -63,79 +63,22 @@ namespace DoctorTrack.WebAPI.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var doctorsList = JsonConvert.DeserializeObject<DoctorListResponse>(content)?.Data;
+                var doctorsList = JsonConvert.DeserializeObject<DoctorListResponseDto>(content)?.Data;
                 return doctorsList.Select(d => new Doctor
                 {
                     Id = int.Parse(d.DoctorId),
                     Name = d.Name,
                     BranchId = Convert.ToInt32(d.BranchId)
-                    // Diğer alanlarınız varsa onları da burada dönüştürebilirsiniz.
+                    
                 });
             }
             else
             {
-                // Error handling
+               
                 throw new HttpRequestException("Unable to fetch doctors");
             }
         }
 
     }
-
-    // API JSON verisine uygun model GetDoctorsAsync
-    /*public class DoctorListResponse
-    {
-        [JsonProperty("data")]
-        public List<DoctorResponse> Data { get; set; }
-    }
-
-    public class DoctorResponse
-    {
-        [JsonProperty("doctorId")]
-        public string DoctorId { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("branchId")]
-        public double BranchId { get; set; }
-
-    } */
-
-    //API JSON verisine uygun model GetAvailableAppointmentsAsync
-    /* public class ScheduleListResponse
-     {
-         [JsonProperty("data")]
-         public List<ScheduleResponse> Data { get; set; }
-     }
-
-     public class ScheduleResponse
-     {
-         [JsonProperty("doctorId")]
-         public int DoctorId { get; set; }
-
-         [JsonProperty("startTime")]
-         public string StartTime { get; set; }
-
-         [JsonProperty("endTime")]
-         public string EndTime { get; set; }
-
-         [JsonProperty("visitId")]
-         public int VisitId { get; set; }
-     } */
-
-    //API JSON verisine uygun model Genel ve Hata
-    /* 
-    public class ErrorResponse
-    {
-    [JsonProperty("message")]
-    public string Message { get; set; }
-    }
-
-
-    public class NoSlotsFoundException : Exception
-    {
-        public NoSlotsFoundException(string message) : base(message) { }
-    }
-    */
 
 }

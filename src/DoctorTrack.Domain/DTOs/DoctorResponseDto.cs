@@ -2,7 +2,7 @@
 
 namespace DoctorTrack.Domain.DTOs
 {
-    public class DoctorResponse
+    public class DoctorResponseDto
     {
         [JsonProperty("doctorId")]
         public string DoctorId { get; set; }

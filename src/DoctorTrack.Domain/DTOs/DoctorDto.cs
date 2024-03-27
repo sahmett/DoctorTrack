@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorTrack.Domain.DTOs
 {
-    public class DoctorJson
+    public class DoctorDto
     {
             public string createdAt { get; set; }
             public string name { get; set; }

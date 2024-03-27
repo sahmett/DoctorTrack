@@ -49,7 +49,7 @@ namespace DoctorTrack.WebAPI.Controllers
                 }
                 return Ok(appointments);
             }
-            catch (NoSlotsFoundException ex)
+            catch (NoSlotsFoundExceptionDto ex)
             {
                
                 return NotFound(ex.Message);

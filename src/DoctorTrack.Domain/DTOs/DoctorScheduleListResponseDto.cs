@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace DoctorTrack.Domain.DTOs
 {
-    public class ErrorResponse
+    public class DoctorScheduleListResponseDto
     {
-        [JsonProperty("message")]
-        public string Message { get; set; }
+        [JsonProperty("data")]
+        public List<ScheduleResponseDto> Data { get; set; }
     }
-
-   
 }
