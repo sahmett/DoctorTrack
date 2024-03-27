@@ -11,10 +11,13 @@ namespace DoctorTrack.WebAPI.Controllers
     public class DoctorsController : ControllerBase
     {
         private readonly IDoctorService _doctorService;
+        private readonly ICsvExportService _csvExportService;
 
-        public DoctorsController(IDoctorService doctorService)
+        public DoctorsController(IDoctorService doctorService,ICsvExportService csvExportService)
         {
             _doctorService = doctorService;
+            _csvExportService = csvExportService;
+            
         }
 
         [HttpGet]
@@ -33,7 +36,6 @@ namespace DoctorTrack.WebAPI.Controllers
             }
         }
 
-      
         [HttpGet("{doctorId}/appointments")]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAvailableAppointments(int doctorId)
         {
@@ -57,5 +59,21 @@ namespace DoctorTrack.WebAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
             }
         }
+
+        [HttpPost("export-doctors")]
+        public async Task<IActionResult> ExportDoctorsToCsv()
+        {
+            try
+            {
+                await _csvExportService.ExportDoctorsToCsvAsync();
+                return Ok(new { message = "Doctors exported to CSV successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error exporting doctors to CSV: {ex.Message}");
+            }
+        }
+
+
     }
 }

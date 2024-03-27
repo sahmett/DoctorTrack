@@ -1,6 +1,10 @@
 ﻿using DoctorTrack.Domain.Entities;
 using DoctorTrack.Domain.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
+
+
 
 namespace DoctorTrack.WebAPI.Services
 {
@@ -51,7 +55,6 @@ namespace DoctorTrack.WebAPI.Services
             }
         }
 
-     
 
         public async Task<IEnumerable<Doctor>> GetDoctorsAsync()
         {

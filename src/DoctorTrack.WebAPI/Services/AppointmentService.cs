@@ -12,7 +12,7 @@ namespace DoctorTrack.WebAPI.Services
     public class AppointmentService : IAppointmentService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://a93ced42-c421-4f38-a0ee-25fc667483c0.mock.pstmn.io/";
+        private const string _baseAddress = "https://a93ced42-c421-4f38-a0ee-25fc667483c0.mock.pstmn.io/";
 
         public AppointmentService(HttpClient httpClient)
         {
@@ -27,7 +27,7 @@ namespace DoctorTrack.WebAPI.Services
                         $"&hospitalId={appointment.hospitalId}&doctorId={appointment.doctorId}&branchId={appointment.branchId}";
 
           
-            var requestUri = $"{BaseUrl}bookVisit{query}";
+            var requestUri = $"{_baseAddress}bookVisit{query}";
 
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
             
@@ -53,7 +53,7 @@ namespace DoctorTrack.WebAPI.Services
 
             var query = $"?BookingID={bookingId}";
 
-            var requestUri = $"{BaseUrl}cancelVisit{query}";
+            var requestUri = $"{_baseAddress}cancelVisit{query}";
    
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
 
@@ -66,7 +66,6 @@ namespace DoctorTrack.WebAPI.Services
             return true;
         }
      
-
         private class BookingResponse
         {
             public bool Status { get; set; }

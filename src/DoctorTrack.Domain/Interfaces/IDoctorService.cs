@@ -11,6 +11,7 @@ namespace DoctorTrack.Domain.Interfaces
     {
         Task<IEnumerable<Doctor>> GetDoctorsAsync();
         Task<IEnumerable<Appointment>> GetAvailableAppointmentsAsync(int doctorId);
+
     }
 
 }

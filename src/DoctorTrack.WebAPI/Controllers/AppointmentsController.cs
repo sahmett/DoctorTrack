@@ -41,8 +41,8 @@ namespace DoctorTrack.WebAPI.Controllers
             }
         }
 
-        [HttpPost("book2")]
-        public async Task<ActionResult> BookAppointment2([FromBody] Appointment appointment)
+        [HttpPost("bookv2")]
+        public async Task<ActionResult> BookAppointmentv2([FromBody] Appointment appointment)
         {
             try
             {
@@ -72,8 +72,8 @@ namespace DoctorTrack.WebAPI.Controllers
         }
         }
 
-        [HttpPost("cancel2/{bookingId}")]
-        public async Task<ActionResult> CancelAppointment2(int bookingId)
+        [HttpPost("cancelv2/{bookingId}")]
+        public async Task<ActionResult> CancelAppointmentv2(int bookingId)
         {
             try
             {
