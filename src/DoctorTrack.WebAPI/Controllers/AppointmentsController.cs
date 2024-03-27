@@ -22,31 +22,6 @@ namespace DoctorTrack.WebAPI.Controllers
             try
             {
                 var bookingId = await _appointmentService.BookAppointmentAsync(appointment);
-                if (bookingId > 0)
-                {
-                    return Ok(new { BookingID = bookingId });
-                }
-                else
-                {
-                    return BadRequest("Randevu oluşturulamadı.");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Randevu servisi hatası: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Beklenmeyen bir hata oluştu: {ex.Message}");
-            }
-        }
-
-        [HttpPost("bookv2")]
-        public async Task<ActionResult> BookAppointmentv2([FromBody] Appointment appointment)
-        {
-            try
-            {
-                var bookingId = await _appointmentService.BookAppointmentAsync(appointment);
                 return Ok(new { status = true, BookingID = bookingId });
             }
             catch (Exception ex)
@@ -62,24 +37,8 @@ namespace DoctorTrack.WebAPI.Controllers
             {
                 var result = await _appointmentService.CancelAppointmentAsync(bookingId);
                 if (result)
-                    return Ok(new { status = true });
-                else
-                    return NotFound(new { status = false, message = "Booking not found" });
-            }
-            catch (Exception ex)
-            {
-             return StatusCode(StatusCodes.Status500InternalServerError, "Error booking the appointment");
-        }
-        }
-
-        [HttpPost("cancelv2/{bookingId}")]
-        public async Task<ActionResult> CancelAppointmentv2(int bookingId)
-        {
-            try
-            {
-                var result = await _appointmentService.CancelAppointmentAsync(bookingId);
-                if (result)
-                    return Ok(new { status = true, message = $"Booking with ID {bookingId} was successfully cancelled." });
+                    return Ok(new { status = true, message = $"The reservation with ID {bookingId} if any, was successfully canceled." });
+                //$"The reservation with ID {bookingId}, if any, was successfully canceled."
                 else
                     // hata mesajı 
                     return NotFound(new { status = false, message = $"Booking with ID {bookingId}" +
