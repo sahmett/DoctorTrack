@@ -1,4 +1,5 @@
-﻿using DoctorTrack.Domain.Entities;
+﻿using DoctorTrack.Domain.DTOs;
+using DoctorTrack.Domain.Entities;
 using DoctorTrack.Domain.Interfaces;
 using DoctorTrack.WebAPI.Services;
 using Microsoft.AspNetCore.Http;

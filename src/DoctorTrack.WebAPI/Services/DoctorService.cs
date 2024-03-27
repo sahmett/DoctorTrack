@@ -1,4 +1,5 @@
-﻿using DoctorTrack.Domain.Entities;
+﻿using DoctorTrack.Domain.DTOs;
+using DoctorTrack.Domain.Entities;
 using DoctorTrack.Domain.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -81,7 +82,7 @@ namespace DoctorTrack.WebAPI.Services
     }
 
     // API JSON verisine uygun model GetDoctorsAsync
-    public class DoctorListResponse
+    /*public class DoctorListResponse
     {
         [JsonProperty("data")]
         public List<DoctorResponse> Data { get; set; }
@@ -98,31 +99,32 @@ namespace DoctorTrack.WebAPI.Services
         [JsonProperty("branchId")]
         public double BranchId { get; set; }
 
-    }
+    } */
 
     //API JSON verisine uygun model GetAvailableAppointmentsAsync
-    public class ScheduleListResponse
-    {
-        [JsonProperty("data")]
-        public List<ScheduleResponse> Data { get; set; }
-    }
+    /* public class ScheduleListResponse
+     {
+         [JsonProperty("data")]
+         public List<ScheduleResponse> Data { get; set; }
+     }
 
-    public class ScheduleResponse
-    {
-        [JsonProperty("doctorId")]
-        public int DoctorId { get; set; }
+     public class ScheduleResponse
+     {
+         [JsonProperty("doctorId")]
+         public int DoctorId { get; set; }
 
-        [JsonProperty("startTime")]
-        public string StartTime { get; set; }
+         [JsonProperty("startTime")]
+         public string StartTime { get; set; }
 
-        [JsonProperty("endTime")]
-        public string EndTime { get; set; }
+         [JsonProperty("endTime")]
+         public string EndTime { get; set; }
 
-        [JsonProperty("visitId")]
-        public int VisitId { get; set; }
-    }
+         [JsonProperty("visitId")]
+         public int VisitId { get; set; }
+     } */
 
     //API JSON verisine uygun model Genel ve Hata
+    /* 
     public class ErrorResponse
     {
     [JsonProperty("message")]
@@ -134,6 +136,6 @@ namespace DoctorTrack.WebAPI.Services
     {
         public NoSlotsFoundException(string message) : base(message) { }
     }
-
+    */
 
 }
