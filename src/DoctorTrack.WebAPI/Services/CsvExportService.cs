@@ -59,10 +59,10 @@ namespace DoctorTrack.WebAPI.Services
             {
                 if (doctor.nationality == "TUR")
                 {
-                    doctor.gender = doctor.gender == "Erkek" ? "Male" : (doctor.gender == "Kadın" ? "Female" : doctor.gender);
+                    doctor.gender = doctor.gender == "Male" ? "Erkek" : (doctor.gender == "Female" ? "Kadın" : doctor.gender);
                 }
 
-               
+
                 var line = string.Format(CultureInfo.CurrentCulture,
                     "\"{0}\"{9}\"{1}\"{9}\"{2}\"{9}\"{3}\"{9}{4}{9}{5}{9}{6}{9}\"{7}\"{9}\"{8}\"",
                     doctor.createdAt,

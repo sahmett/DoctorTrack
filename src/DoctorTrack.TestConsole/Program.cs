@@ -145,25 +145,25 @@ class Program
 ]
     }";
 
-        // JSON verisini bir DoctorDataWrapper nesnesine dönüştür
+        
         var doctorDataWrapper = JsonConvert.DeserializeObject<DoctorDataWrapper>(jsonInput);
         var doctors = doctorDataWrapper.data; // DoctorJson nesnelerinin listesini al
 
-        // "data" dizisindeki her bir elemanı dolaş
+        
         foreach (var doctor in doctors)
         {
-            // Milleti "TUR" olan doktorları kontrol et
+            
             if (doctor.nationality == "TUR")
             {
-                // Cinsiyeti "Male" veya "Female" olarak güncelle
+                
                 doctor.gender = doctor.gender == "Erkek" ? "Male" : "Female";
             }
         }
 
-        // Get the list separator for the current culture
+        
         string listSeparator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
 
-        // Prepare the CSV content
+        
         var csv = new StringBuilder();
         csv.AppendLine($"CreatedAt{listSeparator}Name{listSeparator}Gender{listSeparator}HospitalName{listSeparator}HospitalId{listSeparator}SpecialtyId{listSeparator}BranchId{listSeparator}Nationality{listSeparator}DoctorId");
 
@@ -186,11 +186,11 @@ class Program
             csv.AppendLine(line);
         }
 
-        // Write the CSV content to a file with UTF-8 encoding
+        
         File.WriteAllText("doctors5.csv", csv.ToString(), Encoding.UTF8);
     }
 
-    // Helper method to escape quotes within CSV fields
+        
     static string EscapeQuotes(string input)
     {
         return input.Replace("\"", "\"\"");
