@@ -36,7 +36,7 @@ namespace DoctorTrack.WebAPI.Services
            
             //response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
-            var bookingResponse = JsonConvert.DeserializeObject<BookingResponse>(responseContent);
+            var bookingResponse = JsonConvert.DeserializeObject<BookingResponseDTO>(responseContent);
 
             
             if (bookingResponse.Status && bookingResponse.BookingID.HasValue)
@@ -66,7 +66,7 @@ namespace DoctorTrack.WebAPI.Services
             return true;
         }
      
-        private class BookingResponse
+        private class BookingResponseDTO
         {
             public bool Status { get; set; }
             public int? BookingID { get; set; }

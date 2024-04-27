@@ -10,6 +10,8 @@
             
             Console.WriteLine("CsvCronJob");
 
+            //use doctorTrack.WebAPI.Services.CsvExportService.ExportDoctorsToCsvAsync() method
+            Console.WriteLine("use doctorTrack.WebAPI.Services.CsvExportService.ExportDoctorsToCsvAsync() method");
 
 
 

@@ -1,3 +1,4 @@
+using DoctorTrack.CronJob.DoctorTrack.CronJob.Jobs;
 using DoctorTrack.Domain.Interfaces;
 using DoctorTrack.WebAPI.Services;
 using Hangfire;
@@ -9,12 +10,14 @@ builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<ICsvExportService, CsvExportService>();
 
+
 //hangfire
 var hangfireConnectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 builder.Services.AddHangfire(config =>
 {
     config.UseSqlServerStorage(hangfireConnectionString);
     RecurringJob.AddOrUpdate<DoctorTrack.CronJob.Job>(x => x.CsvCronJob(), Cron.Daily());
+    RecurringJob.AddOrUpdate<DoctorsJob>(job => job.PrintDoctorsToConsole(), Cron.Daily);
 });
 builder.Services.AddHangfireServer();
 
