@@ -1,5 +1,6 @@
 using DoctorTrack.Domain.Interfaces;
 using DoctorTrack.WebAPI.Services;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<ICsvExportService, CsvExportService>();
+
+//hangfire
+var hangfireConnectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(hangfireConnectionString);
+    RecurringJob.AddOrUpdate<DoctorTrack.CronJob.Job>(x => x.CsvCronJob(), Cron.Daily());
+});
+builder.Services.AddHangfireServer();
+
+
 
 builder.Services.AddHttpClient();
 
@@ -27,6 +39,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHangfireDashboard(); //hangfire dashboard
 
 app.MapControllers();
 

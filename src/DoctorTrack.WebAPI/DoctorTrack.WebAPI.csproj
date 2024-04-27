@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoctorTrack.Domain\DoctorTrack.Domain.csproj" />
+    <ProjectReference Include="..\DoctorTrack.CronJob\DoctorTrack.CronJob.csproj" />
+    <ProjectReference Include="..\DoctorTrack.Persistence\DoctorTrack.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
